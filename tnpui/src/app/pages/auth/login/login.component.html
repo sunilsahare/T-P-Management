@@ -1,0 +1,107 @@
+<div
+  class="container-fluid"
+  style="background-color: rgb(247, 247, 247); height: 100vh"
+>
+  <div class="d-flex justify-content-center align-items-center">
+    <div
+      class="card p-4 mx-auto login-form"
+      style="border-radius: 10px; width: 380px"
+    >
+      <!--- Heading -->
+      <div class="bd-highlight text-center">
+        <label for="tnpHeader" class="text-primary h3 pt-2"
+          >T&P Management</label
+        >
+        <div class="p-1 h3">Login</div>
+      </div>
+
+      <hr />
+
+      <form [formGroup]="loginForm">
+        <!-- Username -->
+        <div class="form-group">
+          <label for="userId">UserId</label>
+          <input
+            type="text"
+            formControlName="userId"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid': hasError('userId'),
+              'is-valid': loginForm.get('userId').valid
+            }"
+            id="userId"
+            value="sunil123"
+            required
+          />
+          <!-- Validation Error-->
+          <div
+            [ngClass]="{ 'invalid-feedback': loginForm.get('userId').invalid }"
+            *ngIf="hasError('userId')"
+          >
+            <div *ngIf="loginForm.get('userId').errors?.['required']">
+              UserId is required.
+            </div>
+            <div *ngIf="loginForm.get('userId').errors?.['minlength']">
+              UserId must be at least 4 characters.
+            </div>
+            <div *ngIf="loginForm.get('userId').errors?.['maxlength']">
+              UserId must not be greater than 25 characters.
+            </div>
+          </div>
+        </div>
+
+        <!--  Password  -->
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            formControlName="password"
+            class="form-control is-invalid"
+            id="password"
+            [ngClass]="{
+              'is-invalid': hasError('password'),
+              'is-valid': loginForm.get('password').valid
+            }"
+            aria-describedby="validationServerPassword"
+            value="Sunil!23"
+            required
+          />
+          <!-- Validation Error-->
+          <div
+            [ngClass]="{
+              'invalid-feedback': loginForm.get('password').invalid
+            }"
+            *ngIf="hasError('password')"
+          >
+            <div *ngIf="loginForm.get('password').errors?.['required']">
+              Password is required.
+            </div>
+            <div *ngIf="loginForm.get('password').errors?.['minlength']">
+              Password must be at least 6 characters.
+            </div>
+            <div *ngIf="loginForm.get('password').errors?.['maxlength']">
+              Password must not be greater than 25 characters.
+            </div>
+          </div>
+        </div>
+
+        <hr />
+        <div class="d-flex">
+          <button
+            class="btn btn-primary"
+            [disabled]="loginForm.invalid"
+            type="submit"
+            (click)="login()"
+          >
+            Submit
+          </button>
+          <label for="" class="ml-4 nav-link text-right d-flex"
+            >New to T&P? &nbsp;<a routerLink="../register" class=""
+              >SignUp</a
+            >
+          </label>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

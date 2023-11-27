@@ -1,0 +1,29 @@
+<div class="" style="background-color: aliceblue;">
+    <div class="d-flex bd-highlight">
+        <div class="p-2 bd-highlight h3">Student List</div>
+        <div class="ml-auto p-2 bd-highlight">
+            <button class="btn btn-primary" type="submit" (click)="navigateToAddEditPage()">Add</button>
+            <button class="btn btn-info ml-1" type="submit" [disabled]="selectedRowCount!=1" (click)="navigateToAddEditPage()">Update</button>
+            <button class="btn btn-danger ml-1" [disabled]="selectedRowCount==0" type="submit" (click)="deleteSelectedUser()">Delete</button>
+        </div>
+    </div>
+</div>
+
+<ag-grid-angular
+    style="width: 100%; height: 87vh;"
+    class="ag-theme-alpine"
+    [columnDefs]="columnDefs"
+    [suppressRowClickSelection]="true"
+    [groupSelectsChildren]="true"
+    [rowSelection]="rowSelection"
+    [pagination]="true"
+    [rowData]="rowData"
+    (gridReady)="onGridReady($event)"
+    (selectionChanged)="onSelectionChanged($event)"
+
+    [pagination]="true"
+    [paginationPageSize]="defaultPageSize"
+    [cacheBlockSize]="defaultPageSize"
+    [gridOptions]="gridOptions"
+    >
+  ></ag-grid-angular>

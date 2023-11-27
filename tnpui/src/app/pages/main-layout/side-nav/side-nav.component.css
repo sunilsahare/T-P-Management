@@ -1,0 +1,31 @@
+ .side-nav {
+    background: rgb(10, 53, 95);
+    margin: 0px;
+    height: 100vh;
+    color: #fff;
+ }
+
+ .nav-link {
+    color: gray !important;
+ }
+
+ .menu-items {
+   overflow-y: auto !important;
+   max-height: 81vh !important;
+ }
+
+ .nav-item:hover {
+   background-color: rgb(5, 70, 136);
+   color: white;
+ }
+
+ .active{ 
+   background: white 
+}
+
+hr {
+  border: 0;
+  border-top: 2px solid rgba(250, 240, 240, 0.1);
+  margin-top: 5px;
+  margin-bottom: 0px;
+}
