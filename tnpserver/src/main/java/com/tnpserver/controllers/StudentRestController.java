@@ -6,12 +6,14 @@ import com.tnpserver.pojo.Student;
 import com.tnpserver.service.StudentService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Positive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -52,6 +54,19 @@ public class StudentRestController {
                 .timestamp(LocalDateTime.now())
                 .build();
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
+    @PostMapping("v1/student/resume/{userId}")
+    public ResponseEntity<HttpApiResponse> uploadResumeOrCoverLetter(
+            @PathVariable("userId") @Positive(message = "UserId must be positive number") Long userId ,
+            @RequestParam MultipartFile resumeOrCoverLetter) throws BusinessException {
+        studentService.uploadResumeOrCoverLetter(userId, resumeOrCoverLetter);
+        HttpApiResponse response = HttpApiResponse.builder()
+                .message(resumeOrCoverLetter.getOriginalFilename()+" File Successfully Added.")
+                .status(HttpStatus.OK.name())
+                .timestamp(LocalDateTime.now())
+                .build();
+        return ResponseEntity.ok(response);
     }
 
 }

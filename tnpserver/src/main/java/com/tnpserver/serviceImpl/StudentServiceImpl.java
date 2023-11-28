@@ -1,5 +1,6 @@
 package com.tnpserver.serviceImpl;
 
+import com.tnpserver.constants.AppConst;
 import com.tnpserver.constants.ErrorCode;
 import com.tnpserver.exception.BusinessException;
 import com.tnpserver.helper.EntityPojoMapper;
@@ -7,12 +8,16 @@ import com.tnpserver.pojo.Student;
 import com.tnpserver.pojo.User;
 import com.tnpserver.repo.StudentRepository;
 import com.tnpserver.service.StudentService;
+import com.tnpserver.util.FileUtil;
 import com.tnpserver.util.SessionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 
 @Service("studentService")
@@ -116,6 +121,45 @@ public class StudentServiceImpl extends UserServiceImpl implements StudentServic
         return studentPojo;
     }
 
+    @Override
+    public void uploadResumeOrCoverLetter(Long userId, MultipartFile resumeOrCoverLetter) throws BusinessException {
+        if (resumeOrCoverLetter.isEmpty()) {
+            throw new BusinessException("Please select a file to upload.");
+        }
+
+        //max file size validation
+
+        // only 2 files are allowed to saved in location
+
+        isAcademicInfoUpdateAllowed(userId);
+
+        try {
+            String resumePath = FileUtil.getPathForUser(SessionUtil.getCurrentUsername()) + File.separator + AppConst.RESUME;
+            FileUtil.createDirectories(resumePath);
+            FileUtil.saveFileInFolder(
+                    resumePath,
+                    resumeOrCoverLetter.getOriginalFilename(),
+                    resumeOrCoverLetter.getBytes()
+            );
+            LOG.info("'{}' Resume saved successfully at path {}", resumeOrCoverLetter.getOriginalFilename(), resumePath);
+            com.tnpserver.entity.Student studentInfo = getStudentInfo(userId);
+            studentInfo.setResumeUrl(
+                    resumePath + File.separator + resumeOrCoverLetter.getOriginalFilename()
+            );
+
+            studentRepository.save(studentInfo);
+            LOG.info("Resume URL updated in DB {}", studentInfo.getResumeUrl());
+
+        } catch (IOException e) {
+            throw new BusinessException("Error uploading the file "+resumeOrCoverLetter.getOriginalFilename());
+        }
+    }
+
+    @Override
+    public void getResumeOrCoverLetter(MultipartFile[] resumeOrCoverLetter) throws BusinessException {
+
+    }
+
 
     /**
      * Returns a mapper for converting entities of type {Student} to POJOs of type {Student}.
@@ -161,6 +205,11 @@ public class StudentServiceImpl extends UserServiceImpl implements StudentServic
             LOG.debug(ErrorCode.ACADEMIC_INFO_UPDATE_NOT_ALLOWED.getError());
             throw new BusinessException(ErrorCode.ACADEMIC_INFO_UPDATE_NOT_ALLOWED.getError());
         }
+    }
+
+    public com.tnpserver.entity.Student getStudentInfo(Long userId) {
+        return studentRepository.findByUserId(userId).orElseThrow(() ->
+                new BusinessException("Invalid User Id!!! Please provide a valid UserId."));
     }
 
 
