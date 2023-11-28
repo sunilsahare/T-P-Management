@@ -1,0 +1,137 @@
+<!-- Add User Form -->
+<div class="card p-2">
+
+    <!--- Heading -->
+    <div class="d-flex bd-highlight" style="background-color: aliceblue;">
+        <div class="p-2 bd-highlight h3">Add Employer</div>
+        <div class="ml-auto p-2 bd-highlight">
+            <!-- <button class="btn btn-info" type="submit" (click)="navigateToAddEditPage()">Add</button> -->
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row p-2">
+        <div class="col-8">
+            <form [formGroup]="studentForm">
+                <div class="form-row mb-2">
+                  <!-- FullName -->  
+                  <div class="col-md-6">
+                    <label for="fullName">Full name</label>
+                    <input type="text" formControlName="fullName" class="form-control is-valid" id="fullName" [ngClass]="{'is-invalid': hasError('fullName'), 'is-valid': studentForm.get('fullName').valid}" required>
+                     <!-- Validation Error-->
+                     <div [ngClass]="{'invalid-feedback': studentForm.get('fullName').invalid}" *ngIf="hasError('fullName')">
+                        <div *ngIf="studentForm.get('fullName').errors?.['required']">Full Name is required.</div>
+                        <div *ngIf="studentForm.get('fullName').errors?.['minlength']">
+                            Full Name must be at least 4 characters.
+                        </div>
+                        <div *ngIf="studentForm.get('userId').errors?.['maxlength']">
+                            Full Name must not be greater than 25 characters.
+                        </div>
+                    </div>
+                  </div>
+
+                  <!--  Email  -->
+                  <div class="col-md-6">
+                    <label for="email">Email</label>
+                    <input type="email" formControlName="email" class="form-control" id="email">
+                  </div>
+                </div>
+
+                <div class="form-row mb-2">
+                    <!-- Username -->  
+                    <div class="col-md-6">
+                      <label for="userId">UserId</label>
+                      <input type="text" formControlName="userId" class="form-control" [ngClass]="{'is-invalid': hasError('userId'), 'is-valid': studentForm.get('userId').valid}" id="userId" value="sunil123" required>
+                        <!-- Validation Error-->
+                        <div [ngClass]="{'invalid-feedback': studentForm.get('userId').invalid}" *ngIf="hasError('userId')">
+                            <div *ngIf="studentForm.get('userId').errors?.['required']">UserId is required.</div>
+                            <div *ngIf="studentForm.get('userId').errors?.['minlength']">
+                                UserId must be at least 4 characters.
+                            </div>
+                            <div *ngIf="studentForm.get('userId').errors?.['maxlength']">
+                                UserId must not be greater than 25 characters.
+                            </div>
+                        </div>
+                    </div>
+  
+                    <!--  Password  -->
+                    <div class="col-md-6">
+                      <label for="password">Password</label>
+                      <input type="password" formControlName="password" class="form-control is-invalid" id="password" [ngClass]="{'is-invalid': hasError('password'), 'is-valid': studentForm.get('password').valid}" aria-describedby="validationServerPassword" value="Sunil!23" required>
+                       <!-- Validation Error-->
+                       <div [ngClass]="{'invalid-feedback': studentForm.get('password').invalid}" *ngIf="hasError('password')">
+                        <div *ngIf="studentForm.get('password').errors?.['required']">Password is required.</div>
+                        <div *ngIf="studentForm.get('password').errors?.['minlength']">
+                            Password must be at least 6 characters.
+                        </div>
+                        <div *ngIf="studentForm.get('password').errors?.['maxlength']">
+                            Password must not be greater than 25 characters.
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="form-row mb-2">
+                    <!-- Mobile No -->  
+                    <div class="col-md-6">
+                      <label for="mobile">Mobile No</label>
+                      <input type="number" formControlName="mobile" class="form-control" id="mobile" [ngClass]="{'is-invalid': hasError('mobile')}">
+                        <!-- Validation Error-->
+                        <div [ngClass]="{'invalid-feedback': studentForm.get('mobile').invalid}" *ngIf="hasError('mobile')">
+                        <div *ngIf="studentForm.get('mobile').errors?.['minlength']">
+                            Mobile No must be 10 digits only.
+                        </div>
+                    </div>
+                    </div>
+  
+                    <!-- Gender -->
+                  <div class="col-md-6">
+                    <label for="link">Official Link</label>
+                    <input type="url" class="form-control" formControlName="officialLink" id="officialLink" aria-describedby="officialLink" [ngClass]="{'is-invalid': hasError('officialLink'), 'is-valid': studentForm.get('officialLink').valid}" />
+                     <!-- Validation Error-->
+                     <div [ngClass]="{'invalid-feedback': studentForm.get('officialLink').invalid}" *ngIf="hasError('officialLink')">
+                        <div *ngIf="studentForm.get('officialLink').errors?.['required']">Official Link is required.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row mb-2">
+                    <!-- Address -->
+                    <div class="col-md-12">
+                        <label for="address">Address</label>
+                        <textarea class="form-control" formControlName="address" id="address" placeholder="Address"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-row mb-2">
+                  <!-- Address -->
+                  <div class="col-md-12">
+                      <label for="address">About Employer</label>
+                      <textarea class="form-control" formControlName="about" id="about" placeholder="About Employer"></textarea>
+                  </div>
+              </div>
+
+                <br>
+                <!-- Submit button -->
+                <button class="btn btn-primary" [disabled]="studentForm.invalid" type="submit" (click)="saveStudent()">Submit</button>
+              </form>
+        </div>
+        <div class="col-4">
+            <!-- <div class="card bg-light mb-3" style="max-width: 18rem;height: 75vh;">
+                <div class="card-header">Information</div>
+                <div class="card-body">
+                    <ul>
+                        <li>Full Name should not be greater than 60 characters.</li>
+                        <li>Only Characters, number and underscore are allowed in UserId.</li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+    
+</div>

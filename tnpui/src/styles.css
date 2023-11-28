@@ -1,0 +1,46 @@
+
+
+/*  Angular Table */
+table {
+  width: 100%;
+}
+
+.mat-table{    
+  border-radius: 8px !important;
+}
+
+.table-container {
+  margin-top: 10px;
+  height: 79.70vh;
+  overflow: auto;
+}
+
+/* Table Header color */
+.mat-header-cell {
+  color: #fff;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+/* Paginator backgour */
+.mat-paginator-container {
+  background: gainsboro;
+}
+
+/*  --- Scroll Bar --  */
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgb(187, 170, 170);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #989ab8;
+  -webkit-box-shadow: inset 0 0 6px rgba(90, 90, 90, 0.7);
+}
+
