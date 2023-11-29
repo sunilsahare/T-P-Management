@@ -2,15 +2,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AccessControlService } from './access-control.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RestService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private accessControlService:AccessControlService) {}
 
-  private apiUrl = 'http://localhost:8080/tnpserver'; // Replace with your API endpoint
-  // private apiUrl = '/api/v1'; // Replace with your API endpoint
+  // private apiUrl = 'http://localhost:8080/tnpserver'; // Replace with your API endpoint
+  private apiUrl = '/tnpserver';
+
+  private openAPI: string[] = ['auth/register', 'api/ve/user'];
 
   // Generic method for making HTTP requests
   request(
@@ -20,10 +23,16 @@ export class RestService {
     body?: any,
     headers?: HttpHeaders
   ): Observable<any> {
+
+    headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.accessControlService.getJwtToken()
+    });
+    
     const requestOptions: any = {
       params,
       body,
-      headers,
+      headers
     };
 
     return this.http.request(method, `${this.apiUrl}/${endpoint}`, requestOptions);
@@ -56,4 +65,20 @@ export class RestService {
 
     return this.post(endpoint, formData, params, headers);
   }
+
+  login(endpoint: string, body: any): Observable<any> {
+    const requestOptions: any = { body };
+    return this.http.request('POST', `${this.apiUrl}/${endpoint}`, requestOptions);
+  }
+  
+  register(endpoint: string, body: any): Observable<any> {
+    const requestOptions: any = { body };
+    return this.http.request('POST', `${this.apiUrl}/${endpoint}`, requestOptions);
+  }
+
+  private isNotOpenAPI(apiName: string): boolean {
+    return this.openAPI.includes(apiName);
+  }
+
+
 }

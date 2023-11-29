@@ -1,4 +1,15 @@
+@import "~@fortawesome/fontawesome-free/css/all.css";
 
+html {
+  font-family: 'Times New Roman', Times, serif;
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: rgb(226, 222, 214);
+ }
 
 /*  Angular Table */
 table {
@@ -24,7 +35,7 @@ table {
 
 /* Paginator backgour */
 .mat-paginator-container {
-  background: gainsboro;
+  background: rgb(252, 245, 245);
 }
 
 /*  --- Scroll Bar --  */
@@ -44,3 +55,6 @@ table {
   -webkit-box-shadow: inset 0 0 6px rgba(90, 90, 90, 0.7);
 }
 
+.menu-icon{
+  padding-right: 10px;
+}

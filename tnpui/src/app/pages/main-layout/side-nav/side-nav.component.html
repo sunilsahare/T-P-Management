@@ -1,66 +1,90 @@
-<div class="side-nav">
-  <!--  Profile Section -->
-  <div class="profile pt-3">
-    <div class="header p-2">
-      <a class="navbar-brand text-white pl-2">T&P Management</a>
-    </div>
-    <div class="d-flex pl-3">
-      <div class="btn-group">
-        <div class="">
-          <img
-            src="/assets/sunil.jpg"
-            class="rounded-circle"
-            alt="..."
-            style="width: 50px; height: 50px"
-            type="button"
-            data-toggle="dropdown"
-            aria-expanded="false"
-            data-display="static"
-          />
-          <div class="dropdown-menu" style="width: 200px; height: 100px">
-            <div class="form-group">
-              <a class="nav-link" href="#">View Profile</a>
-              <a class="nav-link text-danger" href="#">Log Out</a>
-            </div>
-          </div>
-        </div>
-      </div>
+<!-------------------->
 
-      <!-- <i class="fa fa-solid fa-user" style="font-size:30px;color:#fff; margin-left: 5px;"></i>  -->
-      <label style="margin-left: 26px; margin-top: 15px">Sunil Sahare</label>
-    </div>
-  </div>
+<div class="d-flex flex-column flex-shrink-0 p-2 bg-body-tertiary side-bar">
+  <a
+    href="/"
+    class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
+  >
+    <img src="assets/sunil.jpg" class="bi pe-none me-2" width="40" height="32">
+      <span class="fs-4">TNP Management</span>
+  </a>
   <hr />
-
-  <!--  Menu will display based on condition -->
   <div class="menu-items">
-    <ul class="nav flex-column" *ngFor="let m of menu">
+    <ul class="nav nav-pills flex-column mb-auto" *ngFor="let m of menu">
       <li class="nav-item">
+        <div
+        *ngIf="m.subMenu.length==0">
         <a
-          href="#menu-{{ m.label }}"
-          class="nav-link"
-          data-toggle="collapse"
-          *ngIf="m.visibilityCondition"
-          (click)="navigateToLink(m.link)"
-        >
-          {{ m.label }}
-        </a>
-        <ul
+            [routerLink]="m.link"
+            class="nav-link link-body-emphasis"
+            routerLinkActive="active-list-item"
+            *ngIf="m.visibilityCondition"
+          >
+            <i class="{{ m.icon }} menu-icon"></i>
+            {{ m.label }}
+          </a>
+        </div>
+
+        <div
+          *ngIf="m.subMenu.length > 0">
+          <a
+            href="#menu-{{ m.label }}"
+            class="nav-link link-body-emphasis"
+            data-bs-toggle="collapse"
+            role="button"
+            *ngIf="m.visibilityCondition"
+            (click)="navigateToLink(m.link)"
+          >
+            <i class="{{ m.icon }} menu-icon"></i>
+            {{ m.label }}
+          </a>
+        </div>
+
+        <div
           *ngIf="m.subMenu.length > 0"
           id="menu-{{ m.label }}"
           class="collapse nav"
         >
-          <li class="nav-item ml-4" *ngFor="let subM of m.subMenu">
-            <a
-              class="nav-link"
-              *ngIf="subM.visibilityCondition"
-              [routerLink]="subM.link"
-            >
-              {{ subM.label }}
-            </a>
-          </li>
-        </ul>
+          <ul style="list-style-type: none; width:100%">
+            <li class="nav-item ml-4" *ngFor="let subM of m.subMenu">
+              <a
+                class="nav-link link-body-emphasis"
+                *ngIf="subM.visibilityCondition"
+                [routerLink]="subM.link"
+                routerLinkActive="active-list-item"
+              >
+                <i class="{{ subM.icon }}"></i>
+                {{ subM.label }}
+              </a>
+            </li>
+          </ul>
+        </div>
       </li>
+    </ul>
+  </div>
+  <hr />
+  <div class="dropdown">
+    <a
+      href="#"
+      class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      <img
+        src="/assets/sunil.jpg"
+        alt="Profile Picture"
+        width="32"
+        height="32"
+        class="rounded-circle me-2"
+      />
+      <strong>Sunil Sahare</strong>
+    </a>
+    <ul class="dropdown-menu text-small shadow">
+      <li><a class="dropdown-item" href="#">Change Password</a></li>
+      <li><a class="dropdown-item" href="#">Settings</a></li>
+      <li><a class="dropdown-item" href="#">Profile</a></li>
+      <li><hr class="dropdown-divider" /></li>
+      <li><a class="dropdown-item" href="#">Sign out</a></li>
     </ul>
   </div>
 </div>

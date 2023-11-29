@@ -10,11 +10,11 @@ import { MenuService } from 'src/app/service/menu.service';
 })
 export class SideNavComponent implements OnInit {
 
-  constructor(private router:Router) {
+  constructor(private router:Router, private menuService:MenuService) {
 
   }
 
-  public menu = MenuService.getMenuForUserRole(UserRoles.ROLE_ADMIN);
+  public menu = this.menuService.getMenuForUserRole(UserRoles.ROLE_ADMIN);
 
   ngOnInit(): void {
   }

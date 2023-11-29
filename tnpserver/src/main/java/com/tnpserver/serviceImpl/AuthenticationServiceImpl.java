@@ -1,12 +1,15 @@
 package com.tnpserver.serviceImpl;
 
 import com.tnpserver.exception.BusinessException;
+import com.tnpserver.helper.PojoHelper;
 import com.tnpserver.helper.UserHelper;
 import com.tnpserver.pojo.JwtRequest;
 import com.tnpserver.pojo.JwtResponse;
+import com.tnpserver.pojo.User;
 import com.tnpserver.repo.UserRepository;
 import com.tnpserver.security.JwtHelper;
 import com.tnpserver.service.AuthenticationService;
+import com.tnpserver.util.EncryptionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +35,7 @@ public class AuthenticationServiceImpl extends UserServiceImpl implements Authen
 
     @Override
     public JwtResponse authenticate(JwtRequest request) throws BusinessException {
-        com.tnpserver.entity.User user = getUserByUsername(request.getUsername());
+        com.tnpserver.entity.User user = getUserByUsername(EncryptionUtil.decrypt(request.getUsername()));
         if (user == null) {
             LOG.info("Invalid Username {}", request.getUsername());
             throw new BusinessException("Invalid Username or password.");
@@ -41,8 +44,8 @@ public class AuthenticationServiceImpl extends UserServiceImpl implements Authen
         authenticationManager
                 .authenticate(
                         new UsernamePasswordAuthenticationToken(
-                                request.getUsername(),
-                                request.getPassword()
+                                EncryptionUtil.decrypt(request.getUsername()),
+                                EncryptionUtil.decrypt(request.getPassword())
                         )
                 );
         org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User(
@@ -51,7 +54,13 @@ public class AuthenticationServiceImpl extends UserServiceImpl implements Authen
                 UserHelper.getAuthorities(List.of(user.getRole().getRole()))
         );
 
+        User userPojo = PojoHelper.userMapper().mapEntityToPojo(user);
+        userPojo.setPassword("**********");
+        userPojo.setRole(user.getRole().getRole());
         String jwtToken = jwtHelper.generateToken(userDetails);
-        return JwtResponse.builder().jwtToken(jwtToken).build();
+        return JwtResponse.builder()
+                .jwtToken(jwtToken)
+                .user(userPojo)
+                .build();
     }
 }

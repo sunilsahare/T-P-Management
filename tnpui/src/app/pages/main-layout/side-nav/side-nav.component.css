@@ -1,31 +1,39 @@
- .side-nav {
-    background: rgb(10, 53, 95);
-    margin: 0px;
-    height: 100vh;
-    color: #fff;
+ .side-bar {
+  overflow-y: auto !important;
+  /* max-height: 79vh !important; */
  }
 
  .nav-link {
-    color: rgb(204, 191, 191) !important;
+    color: #000;
+ }
+
+ .heading {
+  font-weight: bold;
+  color: rgb(199, 135, 17);
  }
 
  .menu-items {
-   overflow-y: auto !important;
-   max-height: 79vh !important;
+  height: 76vh;;
+  overflow: auto;
  }
 
- .nav-item:hover {
+ /* li:hover {
    background-color: rgb(5, 70, 136);
-   color: white;
- }
+   color: #fff;
+ } */
 
  .active{ 
    background: white 
 }
 
-hr {
+/* hr {
   border: 0;
   border-top: 2px solid rgba(250, 240, 240, 0.1);
   margin-top: 5px;
   margin-bottom: 0px;
+} */
+
+.active-list-item {
+  color: #fff !important; /* Note: You could also use a custom theme */
+  background-color: #0962d6;
 }

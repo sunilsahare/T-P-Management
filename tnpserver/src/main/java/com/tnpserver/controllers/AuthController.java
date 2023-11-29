@@ -33,9 +33,6 @@ public class AuthController {
     @Qualifier(value = "authService")
     private AuthenticationService authenticationService;
 
-//    @Autowired
-//    private SessionUtil sessionUtil;
-
     private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
 
     @PostMapping("/authenticate")

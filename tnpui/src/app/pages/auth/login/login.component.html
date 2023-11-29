@@ -20,32 +20,32 @@
       <form [formGroup]="loginForm">
         <!-- Username -->
         <div class="form-group">
-          <label for="userId">UserId</label>
+          <label for="username">username</label>
           <input
             type="text"
-            formControlName="userId"
+            formControlName="username"
             class="form-control"
             [ngClass]="{
-              'is-invalid': hasError('userId'),
-              'is-valid': loginForm.get('userId').valid
+              'is-invalid': hasError('username'),
+              'is-valid': loginForm.get('username').valid
             }"
-            id="userId"
+            id="username"
             value="sunil123"
             required
           />
           <!-- Validation Error-->
           <div
-            [ngClass]="{ 'invalid-feedback': loginForm.get('userId').invalid }"
-            *ngIf="hasError('userId')"
+            [ngClass]="{ 'invalid-feedback': loginForm.get('username').invalid }"
+            *ngIf="hasError('username')"
           >
-            <div *ngIf="loginForm.get('userId').errors?.['required']">
-              UserId is required.
+            <div *ngIf="loginForm.get('username').errors?.['required']">
+              username is required.
             </div>
-            <div *ngIf="loginForm.get('userId').errors?.['minlength']">
-              UserId must be at least 4 characters.
+            <div *ngIf="loginForm.get('username').errors?.['minlength']">
+              username must be at least 4 characters.
             </div>
-            <div *ngIf="loginForm.get('userId').errors?.['maxlength']">
-              UserId must not be greater than 25 characters.
+            <div *ngIf="loginForm.get('username').errors?.['maxlength']">
+              username must not be greater than 25 characters.
             </div>
           </div>
         </div>

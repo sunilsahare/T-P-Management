@@ -8,6 +8,7 @@ import com.tnpserver.helper.UserHelper;
 import com.tnpserver.pojo.User;
 import com.tnpserver.repo.UserRepository;
 import com.tnpserver.service.UserService;
+import com.tnpserver.util.EncryptionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,10 @@ public class UserServiceImpl implements UserService {
     public User addUser(User user) throws BusinessException {
         com.tnpserver.entity.User userEntity = UserHelper.mapPojoToEntity(user);
         userEntity.setActive(false);
-        userEntity.setRole(RoleEnum.STUDENT);
-        userEntity.setPassword(encoder.encode(user.getPassword()));
-        isUsernameExists(user.getUsername());
+        userEntity.setRole(RoleEnum.fromString(EncryptionUtil.decrypt(user.getRole())));
+        userEntity.setPassword(encoder.encode(EncryptionUtil.decrypt(user.getPassword())));
+        userEntity.setUsername(EncryptionUtil.decrypt(user.getUsername()));
+        isUsernameExists(EncryptionUtil.decrypt(user.getUsername()));
         isEmailExists(user.getEmail());
         com.tnpserver.entity.User savedUser = userRepo.save(userEntity);
         User userPojo = UserHelper.mapEntityToPojo(savedUser);

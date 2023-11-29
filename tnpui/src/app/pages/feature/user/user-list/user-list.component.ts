@@ -35,7 +35,7 @@ export class UserListComponent implements OnInit {
     'fullName',
     'email',
     'username',
-    'password',
+    // 'password',
     'mobile',
     'role',
     'active',

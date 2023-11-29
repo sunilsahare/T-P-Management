@@ -3,11 +3,13 @@ package com.tnpserver.constants;
 import java.util.Arrays;
 
 public enum RoleEnum {
-    ADMIN("admin"),
-    STUDENT("student"),
-    EMPLOYER("employer"),
-    ALUMNI("alumni"),
-    PARTNER("partner");
+    ROLE_ADMIN("ROLE_ADMIN"),
+    ROLE_HOD("ROLE_HOD"),
+    ROLE_STUDENT("ROLE_STUDENT"),
+    ROLE_TNP_OFFICER("ROLE_TNP_OFFICER"),
+    ROLE_ALUMNI("ROLE_ALUMNI"),
+    ROLE_PARTNER("ROLE_PARTNER"),
+    ROLE_EMPLOYER("ROLE_EMPLOYER");
 
     private final String role;
 

@@ -8,6 +8,8 @@ import { RouterService } from 'src/app/service/router.service';
 import { UserService } from 'src/app/service/user.service';
 import { AlertService } from 'src/app/service/alert.service';
 import { FieldError, ValidationError } from 'src/app/model/error-model';
+import { UserRoles } from 'src/app/enum/user-roles';
+import { CryptoService } from 'src/app/service/crypto.service';
 
 @Component({
   selector: 'app-student',
@@ -75,7 +77,11 @@ export class StudentComponent implements OnInit {
       this.userService.saveUser(user).subscribe(
         (response:any) => {
           this.alertService.success("User Successfully Registered");
-          this.routerService.navigateToUrl('tnp', 'user/student-list');
+          if(this.currentRouteUrl === '/register'){
+            this.routerService.navigateToUrl('', '/login');
+          } else {
+            this.routerService.navigateToUrl('tnp', 'user/student-list');
+          }
         },
         (responseError:any) => {
           this.alertService.failed("User Registration Failed.");
@@ -94,16 +100,16 @@ export class StudentComponent implements OnInit {
   mapFormGroupToUser(): User {
     const user: User = {
       userId: 0,
-      username: this.studentForm.value.username,
-      password: this.studentForm.value.password,
+      username: CryptoService.encrypt(this.studentForm.value.username),
+      password: CryptoService.encrypt(this.studentForm.value.password),
       fullName: this.studentForm.value.fullName,
       gender: this.studentForm.value.gender,
       email: this.studentForm.value.email,
       mobile: this.studentForm.value.mobile,
-      role: this.studentForm.value.role,
+      role: CryptoService.encrypt(UserRoles.ROLE_STUDENT),
       profilePictureUrl: '',
       address: this.studentForm.value.address,
-      active:null
+      isActive:false
     };
 
     return user;

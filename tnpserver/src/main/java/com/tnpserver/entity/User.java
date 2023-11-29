@@ -22,6 +22,8 @@ public class User {
     private String fullName;
     private String email;
     private String mobile;
+    private String gender;
+    private String address;
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
     private String profilePictureUrl;

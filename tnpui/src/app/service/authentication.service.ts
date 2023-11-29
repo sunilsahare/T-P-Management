@@ -1,23 +1,22 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { APIConst } from '../constants/api-const';
+import { RestService } from './rest.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
-  private loginApiUrl = 'http://localhost:8080/login'; // Replace with your login API URL
+  private readonly STORAGE_KEY = 'auth_details';
+  public hasAdmin:boolean = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private restService:RestService) {}
 
-  authenticate(username: string, password: string): Observable<any> {
-    // Create a request body with username and password
+  authenticate(username: string, password: string):any {
     const requestBody = {
       username: username,
       password: password,
     };
-
-    // Send a POST request to the login API
-    return this.http.post(this.loginApiUrl, requestBody);
+    return this.restService.login(APIConst.AUTHENTICATE, requestBody);
   }
+
 }

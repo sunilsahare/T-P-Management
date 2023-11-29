@@ -21,9 +21,10 @@ public class User {
     private String fullName;
     @Email(message = "Provide valid email address")
     private String email;
+    private String gender;
+    private String address;
     private String mobile;
-    @Enumerated(EnumType.STRING)
-    private RoleEnum role;
+    private String role;
     private String profilePictureUrl;
     private boolean isActive;
 

@@ -28,7 +28,6 @@ export class EmployerListComponent implements OnInit {
     'fullName',
     'email',
     'username',
-    'password',
     'mobile',
     'role',
     'active',

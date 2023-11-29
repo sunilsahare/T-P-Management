@@ -1,5 +1,6 @@
 package com.tnpserver.util;
 
+import com.tnpserver.exception.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +19,7 @@ public class EncryptionUtil {
 
     private static final String ALGORITHM = "AES";
     private static final int KEY_SIZE = 256;
-    private static final String secretKey = "7WNuvrHDdiJtrtZ1m6DlcCkTbe2t0ao0";
+    private static final String secretKey = "JqU#VY47!9r*HLhGc^zso$P1iRld^6#K";
 
     private static Logger LOG = LoggerFactory.getLogger(EncryptionUtil.class);
     private static SecretKey key;
@@ -54,11 +55,16 @@ public class EncryptionUtil {
      * @return The decrypted plain text.
      * @throws Exception If an error occurs during decryption.
      */
-    public static String decrypt(String cipherText) throws Exception {
+    public static String decrypt(String cipherText) {
+        try {
         Cipher cipher = Cipher.getInstance(ALGORITHM);
         cipher.init(Cipher.DECRYPT_MODE, key);
         byte[] decryptedBytes = cipher.doFinal(Base64.getDecoder().decode(cipherText));
         return new String(decryptedBytes, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            LOG.error("Unknown error occurred while decrypting data. Error - {} ", e);
+            throw new BusinessException("Unknown error occurred while decrypting data.");
+        }
     }
 
     private static SecretKey generateKey(String secretKey) throws NoSuchAlgorithmException {

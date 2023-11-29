@@ -4,6 +4,7 @@ import com.tnpserver.constants.AppConst;
 import com.tnpserver.constants.ErrorCode;
 import com.tnpserver.exception.BusinessException;
 import com.tnpserver.helper.EntityPojoMapper;
+import com.tnpserver.helper.PojoHelper;
 import com.tnpserver.pojo.Student;
 import com.tnpserver.pojo.User;
 import com.tnpserver.repo.StudentRepository;
@@ -47,7 +48,7 @@ public class StudentServiceImpl extends UserServiceImpl implements StudentServic
         updateStudentDetails(studentEntity, student);
         com.tnpserver.entity.Student savedStudent = studentRepository.save(studentEntity);
         LOG.debug("Updated academic info: {}", savedStudent);
-        return studentMapper().mapEntityToPojo(savedStudent);
+        return PojoHelper.studentMapper().mapEntityToPojo(savedStudent);
     }
 
     /**
@@ -85,8 +86,8 @@ public class StudentServiceImpl extends UserServiceImpl implements StudentServic
      * @return A {Student} entity ready for updating in the database.
      */
     private com.tnpserver.entity.Student createStudentEntityForUpdate(Student student) {
-        com.tnpserver.entity.Student studentEntity = studentMapper().mapPojoToEntity(student);
-        studentEntity.setUser(userMapper().mapPojoToEntity(getUser(student.getUserId())));
+        com.tnpserver.entity.Student studentEntity = PojoHelper.studentMapper().mapPojoToEntity(student);
+        studentEntity.setUser(PojoHelper.userMapper().mapPojoToEntity(getUser(student.getUserId())));
         studentEntity.setId(student.getStudentId() != null ? student.getStudentId() : 0);
         return studentEntity;
     }
@@ -116,7 +117,7 @@ public class StudentServiceImpl extends UserServiceImpl implements StudentServic
     public Student getAcademicInfo(Long id) throws BusinessException {
         com.tnpserver.entity.Student studentEntity = studentRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ACADEMIC_INFO_NOT_FOUND.getError()));
-        Student studentPojo = studentMapper().mapEntityToPojo(studentEntity);
+        Student studentPojo = PojoHelper.studentMapper().mapEntityToPojo(studentEntity);
         // studentPojo.setUser(studentEntity.getUser());
         return studentPojo;
     }
@@ -166,18 +167,18 @@ public class StudentServiceImpl extends UserServiceImpl implements StudentServic
      *
      * @return An {EntityPojoMapper} for {Student} and {Student}.
      */
-    private static EntityPojoMapper<com.tnpserver.entity.Student, Student> studentMapper() {
-        return new EntityPojoMapper<>(com.tnpserver.entity.Student.class, Student.class);
-    }
+//    private static EntityPojoMapper<com.tnpserver.entity.Student, Student> studentMapper() {
+//        return new EntityPojoMapper<>(com.tnpserver.entity.Student.class, Student.class);
+//    }
 
     /**
      * Returns a mapper for converting entities of type {User} to POJOs of type {User}.
      *
      * @return An {EntityPojoMapper} for {User} and {User}.
      */
-    private static EntityPojoMapper<com.tnpserver.entity.User, User> userMapper() {
-        return new EntityPojoMapper<>(com.tnpserver.entity.User.class, User.class);
-    }
+//    private static EntityPojoMapper<com.tnpserver.entity.User, User> userMapper() {
+//        return new EntityPojoMapper<>(com.tnpserver.entity.User.class, User.class);
+//    }
 
     /**
      * Validates whether the update of academic information is allowed for the specified user based on the logged-in session.

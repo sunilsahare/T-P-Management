@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../model/user-model';
 import { RestService } from './rest.service';
+import { APIConst } from '../constants/api-const';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +12,11 @@ export class UserService {
   // private userApiUrl = 'user/'; // Replace with your login API URL
   private userApiUrl = 'api/v1/user/'; // Replace with your login API URL
 
-  constructor(private http: HttpClient, private restService:RestService) {}
+  constructor(private restService:RestService) {}
 
   
   public saveUser(user:User):any {
-    return this.restService.post(this.userApiUrl, user);
+    return this.restService.register(APIConst.REGISTER, user);
   }
 
   public updateUser(user:User) {
