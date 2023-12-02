@@ -9,11 +9,11 @@ import { RouterService } from 'src/app/service/router.service';
 import { UserService } from 'src/app/service/user.service';
 
 @Component({
-  selector: 'app-user-list',
-  templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.css'],
+  selector: 'app-user',
+  templateUrl: './user.component.html',
+  styleUrls: ['./user.component.css']
 })
-export class UserListComponent implements OnInit {
+export class UserComponent implements OnInit {
   pageIndex: number = 0;
   pageSize: number = 10;
   length: number = 0;
@@ -35,10 +35,10 @@ export class UserListComponent implements OnInit {
     'fullName',
     'email',
     'username',
-    // 'password',
     'mobile',
     'role',
     'active',
+    'action'
   ];
   dataSource = new MatTableDataSource<User>();
 
@@ -132,4 +132,18 @@ export class UserListComponent implements OnInit {
   private getSelectedRows(): User[] {
     return this.selection.selected;
   }
+
+  /**
+   * Update User Accunt Status
+   * @param selectedRow - update the status value after api call to the selectdRow
+   * @param event - contains status value
+   */
+  public updateUserStatus(selectedRow:User, event:any) {
+    const accountStatus = event.target.checked;
+    console.log('accountStatus , ',accountStatus);
+    selectedRow.active = accountStatus;
+    console.log('selectedRow , ',selectedRow);
+
+  }
+
 }

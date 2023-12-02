@@ -26,25 +26,26 @@ export class MenuService {
       },
       {
         label: "Users",
-        link: null,
+        link: RouteConst.USERS,
         visibilityCondition:
           this.accessControlService.hasRoleAdmin ||
           this.accessControlService.hasRoleStudent,
         icon: "fa-solid fa-user",
-        subMenu: [
-          {
-            label: "Student List",
-            link: RouteConst.STUDENT_LIST_LINK,
-            visibilityCondition: this.accessControlService.hasRoleAdmin,
-            icon: "fa fa-user-friends"
-          },
-          {
-            label: "Employer List",
-            link: RouteConst.EMPLOYER_LIST_LINK,
-            visibilityCondition: this.accessControlService.hasRoleAdmin,
-            icon: "fas fa-users"
-          },
-        ],
+        // subMenu: [
+        //   {
+        //     label: "Student List",
+        //     link: RouteConst.STUDENT_LIST_LINK,
+        //     visibilityCondition: this.accessControlService.hasRoleAdmin,
+        //     icon: "fa fa-user-friends"
+        //   },
+        //   {
+        //     label: "Employer List",
+        //     link: RouteConst.EMPLOYER_LIST_LINK,
+        //     visibilityCondition: this.accessControlService.hasRoleAdmin,
+        //     icon: "fas fa-users"
+        //   },
+        // ],
+        subMenu:[]
       },
       {
         label: "Job Listings",

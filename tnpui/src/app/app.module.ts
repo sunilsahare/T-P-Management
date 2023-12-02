@@ -8,7 +8,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import { UserListComponent } from './pages/feature/user/user-list/user-list.component';
 import { MainLayoutComponent } from './pages/main-layout/main-layout.component';
 import { SideNavComponent } from './pages/main-layout/side-nav/side-nav.component';
 import { TopNavComponent } from './pages/main-layout/header/top-nav.component';
@@ -17,7 +16,6 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatSortModule } from '@angular/material/sort';
-import { EmployerListComponent } from './pages/feature/user/employer-list/employer-list.component';
 import { EmployerComponent } from './pages/feature/user/operations/employer/employer.component';
 import { StudentComponent } from './pages/feature/user/operations/student/student.component';
 import { AlumniComponent } from './pages/feature/alumni/alumni.component';
@@ -30,16 +28,16 @@ import { NotificationComponent } from './pages/feature/notification/notification
 import { ReportsComponent } from './pages/feature/reports/reports.component';
 import { ResumeComponent } from './pages/feature/resume/resume.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { UserComponent } from './pages/feature/user/user.component';
+import { AddUserComponent } from './pages/auth/add-user/add-user.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserListComponent,
     MainLayoutComponent,
     SideNavComponent,
     TopNavComponent,
     LoginComponent,
-    EmployerListComponent,
     EmployerComponent,
     StudentComponent,
     AlumniComponent,
@@ -51,6 +49,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     NotificationComponent,
     ReportsComponent,
     ResumeComponent,
+    UserComponent,
+    AddUserComponent,
     
 
   ],

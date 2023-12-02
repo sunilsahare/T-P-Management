@@ -28,3 +28,7 @@ export function getDisplayNameByRole(role: string): string | null {
   const roleInfo = RoleInfo.find((displayName) => displayName.role === role);
   return roleInfo ? roleInfo.displayName : null;
 }
+
+export function getAllRoles(): any[] | null {
+  return RoleInfo;
+}

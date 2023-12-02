@@ -1,5 +1,5 @@
 <!-- Add User Form -->
-<div [ngClass]="{ 'container p-3': currentRouteUrl === '/register' }">
+<div [ngClass]="{ 'container-fluid p-3': currentRouteUrl === '/register' }">
   <label
     *ngIf="currentRouteUrl === '/register'"
     for="tnpHeader"
@@ -10,17 +10,17 @@
   >
 
   <div
-    class="card p-2"
+    class="p-2"
     [ngClass]="{ 'col-8 mx-auto': currentRouteUrl === '/register' }"
   >
-    <div class="bd-highlight d-flex p-2 h3">Add Student</div>
+    <div class="bd-highlight d-flex p-2 h3">Add Student Information</div>
 
     <hr class="mt-0 mb-1" />
 
-    <div class="row p-2">
+    <div class="row p-2 g-3">
       <div class="col-8">
         <form [formGroup]="studentForm">
-          <div class="form-row mb-2">
+          <div class="row mb-2">
             <!-- FullName -->
             <div class="col-md-6">
               <label for="fullName">Full name</label>
@@ -84,7 +84,7 @@
             </div>
           </div>
 
-          <div class="form-row mb-2">
+          <div class="row mb-2">
             <!-- Username -->
             <div class="col-md-6">
               <label for="username">UserId</label>
@@ -165,7 +165,7 @@
             </div>
           </div>
 
-          <div class="form-row mb-2">
+          <div class="row mb-2">
             <!-- Mobile No -->
             <div class="col-md-6">
               <label for="mobile">Mobile No</label>
@@ -198,7 +198,7 @@
             <div class="col-md-6">
               <label for="gender">Gender</label>
               <select
-                class="custom-select is-invalid"
+                class="form-select is-invalid"
                 formControlName="gender"
                 id="gender"
                 aria-describedby="gender"
@@ -231,7 +231,7 @@
             </div>
           </div>
 
-          <div class="form-row mb-2">
+          <div class="row mb-2">
             <!-- Address -->
             <div class="col-md-12">
               <label for="address">Address</label>
@@ -243,6 +243,48 @@
               ></textarea>
             </div>
           </div>
+
+          <div class="row" *ngIf="currentRouteUrl != '/register'">
+            <!-- Gender -->
+            <div class="col-md-6">
+              <label for="gender">Select Role</label>
+              <select
+                class="form-select is-invalid"
+                formControlName="role"
+                id="role"
+                aria-describedby="role"
+                [ngClass]="{
+                  'is-invalid': hasError('role'),
+                  'is-valid': studentForm.get('role').valid
+                }"
+              >
+                <option selected disabled>Select Role</option>
+                <option
+                  value="{{ role.role }}"
+                  *ngFor="let role of accessControlService.getAllRoles()"
+                >
+                  {{ role.displayName }}
+                </option>
+              </select>
+              <!-- Validation Error-->
+              <div
+                [ngClass]="{
+                  'invalid-feedback': studentForm.get('role').invalid
+                }"
+                *ngIf="hasError('role')"
+              >
+                <div *ngIf="studentForm.get('role').errors?.['required']">
+                  Role is required.
+                </div>
+                <div
+                  *ngIf="studentForm.get('role').errors?.['backendValidation']==true"
+                >
+                  {{studentForm.get('role').errors?.['message']}}
+                </div>
+              </div>
+            </div>
+          </div>
+
           <br />
           <!-- Submit button -->
           <div class="d-flex">
@@ -264,7 +306,7 @@
         </form>
       </div>
       <div class="col-4">
-        <div class="bg-light mb-3" style="max-width: 18rem; height: 65vh">
+        <div class="card bg-light mb-3" style="max-width: 18rem; height: 65vh">
           <div class="card-header text info">Information</div>
           <div class="card-body">
             <ul class="m-0 pl-1">

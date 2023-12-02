@@ -1,11 +1,9 @@
 import { ChangeDetectorRef, Component } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { APIConst } from "src/app/constants/api-const";
 import { AccessControlService } from "src/app/service/access-control.service";
+import { AlertService } from "src/app/service/alert.service";
 import { AuthenticationService } from "src/app/service/authentication.service";
 import { CryptoService } from "src/app/service/crypto.service";
-import { RestService } from "src/app/service/rest.service";
 import { RouterService } from "src/app/service/router.service";
 
 @Component({
@@ -22,7 +20,7 @@ export class LoginComponent {
     private authService: AuthenticationService,
     private accessControlService: AccessControlService,
     private routerService: RouterService,
-    private snackBar: MatSnackBar
+    private alertService:AlertService
   ) {}
 
   ngOnInit(): void {
@@ -33,14 +31,14 @@ export class LoginComponent {
   private buildForm() {
     this.loginForm = this.formBuilder.group({
       username: [
-        "sunny",
+        "",
         [
           Validators.required,
           Validators.minLength(4),
           Validators.maxLength(25),
         ],
       ],
-      password: ["Sunny@123", [Validators.minLength(6), Validators.maxLength(25)]],
+      password: ["", [Validators.minLength(6), Validators.maxLength(25)]],
     });
   }
 
@@ -57,26 +55,22 @@ export class LoginComponent {
       .subscribe(
         (loginResponse: any) => {
           console.log("Login Response: ", loginResponse);
-          // Write a service to save data (if needed)
           this.accessControlService.setAuthDetails(
             loginResponse.mapList.responseData.username, 
             loginResponse.mapList.responseData.role,
             loginResponse.mapList.responseData.jwtToken,        
             loginResponse.mapList.responseData.user);       
-          // Display success message
-          this.snackBar.open("Login Successful", "Success");
+          this.alertService.success("Login Successful");
           console.log('JWT - ', this.accessControlService.getJwtToken());
           console.log('role - ', this.accessControlService.getUserRole());
           console.log('id - ', this.accessControlService.getUserId());
           // Redirect to user page
-          this.routerService.navigateToUrl("tnp", "user/student-list");
+          this.routerService.navigateToUrl("tnp", "user");
         },
         (error: any) => {
-          // Handle authentication error
           console.error("Authentication Error: ", error);
-  
-          // Display error message
-          this.snackBar.open("Login Failed."+error.message, "Close");
+          const errorResponse = error.error;
+          this.alertService.failed("Login Failed."+errorResponse.message);
         }
       );
   }

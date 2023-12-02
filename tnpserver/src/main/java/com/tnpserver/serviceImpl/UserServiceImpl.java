@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<com.tnpserver.entity.User> getAllUser(Pageable pageable) {
-        Page<com.tnpserver.entity.User> userPage = userRepo.findAllByIsActive(true, pageable);
+        Page<com.tnpserver.entity.User> userPage = userRepo.findAll(pageable);
         List<User> pojoList = UserHelper.mapEntityListToPojoList(userPage.getContent());
         LOG.info("Fetching All User - {} ", pojoList);
         // TODO: Need to return data in pojo

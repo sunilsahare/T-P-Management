@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserListComponent } from './pages/feature/user/user-list/user-list.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { AlumniComponent } from './pages/feature/alumni/alumni.component';
 import { CompaniesComponent } from './pages/feature/companies/companies.component';
@@ -11,14 +10,16 @@ import { MatchingComponent } from './pages/feature/matching/matching.component';
 import { NotificationComponent } from './pages/feature/notification/notification.component';
 import { ReportsComponent } from './pages/feature/reports/reports.component';
 import { ResumeComponent } from './pages/feature/resume/resume.component';
-import { EmployerListComponent } from './pages/feature/user/employer-list/employer-list.component';
 import { EmployerComponent } from './pages/feature/user/operations/employer/employer.component';
 import { StudentComponent } from './pages/feature/user/operations/student/student.component';
 import { MainLayoutComponent } from './pages/main-layout/main-layout.component';
+import { UserComponent } from './pages/feature/user/user.component';
+import { RouteConst } from './constants/route-const';
+import { AddUserComponent } from './pages/auth/add-user/add-user.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: StudentComponent },
+  { path: 'register', component: AddUserComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Default route
 
   // ------- USER TAB -----
@@ -31,8 +32,8 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent },
       
       //---  USER TAB ----
-      { path: 'user/employer-list', component: EmployerListComponent },
-      { path: 'user/student-list', component: UserListComponent },
+      { path: RouteConst.USERS, component: UserComponent },
+      { path: RouteConst.USERS_ADD, component: AddUserComponent },
       { path: 'user/student', component: StudentComponent },
       { path: 'user/employer', component: EmployerComponent },
       

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserRoles } from '../enum/user-roles';
+import { RoleInfo, UserRoles } from '../enum/user-roles';
 import { User } from '../model/user-model';
 
 @Injectable({
@@ -82,6 +82,11 @@ export class AccessControlService {
   getJwtToken(): string | null {
     const authDetails = this.getAuthDetails();
     return authDetails ? authDetails.jwtToken : null;
+  }
+
+  // Get All Static roles
+  getAllRoles() : any {
+    return RoleInfo;
   }
 
 }

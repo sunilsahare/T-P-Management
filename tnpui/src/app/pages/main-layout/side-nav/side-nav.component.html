@@ -5,16 +5,20 @@
     href="/"
     class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
   >
-    <img src="assets/sunil.jpg" class="bi pe-none me-2" width="40" height="32">
-      <span class="fs-4">TNP Management</span>
+    <img
+      src="assets/sunil.jpg"
+      class="bi pe-none me-2"
+      width="40"
+      height="32"
+    />
+    <span class="fs-4">TNP Management</span>
   </a>
   <hr />
   <div class="menu-items">
     <ul class="nav nav-pills flex-column mb-auto" *ngFor="let m of menu">
       <li class="nav-item">
-        <div
-        *ngIf="m.subMenu.length==0">
-        <a
+        <div *ngIf="m.subMenu.length == 0">
+          <a
             [routerLink]="m.link"
             class="nav-link link-body-emphasis"
             routerLinkActive="active-list-item"
@@ -25,8 +29,7 @@
           </a>
         </div>
 
-        <div
-          *ngIf="m.subMenu.length > 0">
+        <div *ngIf="m.subMenu.length > 0">
           <a
             href="#menu-{{ m.label }}"
             class="nav-link link-body-emphasis"
@@ -45,7 +48,7 @@
           id="menu-{{ m.label }}"
           class="collapse nav"
         >
-          <ul style="list-style-type: none; width:100%">
+          <ul style="list-style-type: none; width: 100%">
             <li class="nav-item ml-4" *ngFor="let subM of m.subMenu">
               <a
                 class="nav-link link-body-emphasis"
@@ -80,11 +83,64 @@
       <strong>Sunil Sahare</strong>
     </a>
     <ul class="dropdown-menu text-small shadow">
-      <li><a class="dropdown-item" href="#">Change Password</a></li>
-      <li><a class="dropdown-item" href="#">Settings</a></li>
-      <li><a class="dropdown-item" href="#">Profile</a></li>
+      <li>
+        <a class="dropdown-item" href="#">
+          <i class="fas fa-key pr-2"></i>
+          &nbsp; Change Password
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="#"
+          ><i class="fas fa-cogs pr-2"></i>&nbsp;Settings</a
+        >
+      </li>
+      <li>
+        <a class="dropdown-item" href="#"
+          ><i class="fas fa-user pr-2"></i>&nbsp;Profile</a
+        >
+      </li>
       <li><hr class="dropdown-divider" /></li>
-      <li><a class="dropdown-item" href="#">Sign out</a></li>
+      <li>
+        <a class="dropdown-item text-danger" style="cursor: pointer;" (click)="logOut()"
+          ><i class="fas fa-sign-out-alt pr-2"></i> &nbsp;Sign out</a
+        >
+      </li>
     </ul>
+
+    <!---------->
+
+    <!-- <ul
+      class="dropdown-menu d-block position-static mx-0 shadow w-100px"
+      data-bs-theme="light"
+    >
+      <li>
+        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+          <i class="fas fa-key"></i>
+          Change Password
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+          <i class="fas fa-cogs"></i>
+          Setting
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
+          <i class="fas fa-user"></i>
+          Profile
+        </a>
+      </li>
+      <li><hr class="dropdown-divider" /></li>
+      <li>
+        <a
+          class="dropdown-item text-danger d-flex gap-2 align-items-center"
+          href="#"
+        >
+          <i class="fas fa-sign-out-alt"></i>
+          Sign out
+        </a>
+      </li>
+    </ul> -->
   </div>
 </div>

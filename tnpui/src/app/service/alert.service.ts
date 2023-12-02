@@ -20,11 +20,8 @@ export class AlertService {
   }
 
   public handleResponse(response: any) {
-    // Handle list of error
     this.handleErrorList(response);
-    // handle field Errors
     this.handleFieldErrors(response);
-
   }
 
   private handleErrorList(response: any) {

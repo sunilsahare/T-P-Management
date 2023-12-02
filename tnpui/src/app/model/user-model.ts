@@ -9,6 +9,6 @@ export class User {
     role!: string;
     profilePictureUrl!: string;
     address!:string;
-    isActive!:false | null;
+    active!:boolean | null;
   }
   

@@ -13,11 +13,12 @@ import { CryptoService } from 'src/app/service/crypto.service';
 import { AccessControlService } from 'src/app/service/access-control.service';
 
 @Component({
-  selector: 'app-student',
-  templateUrl: './student.component.html',
-  styleUrls: ['./student.component.css'],
+  selector: 'app-add-user',
+  templateUrl: './add-user.component.html',
+  styleUrls: ['./add-user.component.css']
 })
-export class StudentComponent implements OnInit {
+export class AddUserComponent implements OnInit {
+
   public messageData: any = null;
   // alertComponent!: AlertMessageComponent;
   public currentRouteUrl;
