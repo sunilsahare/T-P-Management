@@ -41,4 +41,8 @@ export class SideNavComponent implements OnInit {
     }
   }
 
+  getFullName(): string | undefined {
+    return this.accessControlService.getUser()?.fullName;
+  }
+
 }

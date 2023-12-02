@@ -20,6 +20,11 @@ export class AlertService {
   }
 
   public handleResponse(response: any) {
+    if (response.status == 200) {
+      this.success(response.message);
+    } else {
+      this.failed(response.message);
+    }
     this.handleErrorList(response);
     this.handleFieldErrors(response);
   }

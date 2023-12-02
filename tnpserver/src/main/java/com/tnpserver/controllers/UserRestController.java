@@ -7,6 +7,7 @@ import com.tnpserver.service.UserService;
 import com.tnpserver.util.SessionUtil;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Positive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -84,4 +85,18 @@ public class UserRestController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+    @PutMapping("v1/user/{userId}")
+    public ResponseEntity<HttpApiResponse> updateUserAccountStatus(
+            @PathVariable("userId") @Valid @Positive Long userId,
+            @RequestParam("currentStatus") boolean currentStatus,
+            @RequestParam("statusToBeUpdated") boolean statusToBeUpdated) throws BusinessException {
+        userService.updateUserAccountStatus(userId, currentStatus, statusToBeUpdated);
+        HttpApiResponse response = HttpApiResponse.builder()
+                .message("User Status Successfully Updated.")
+                .status(HttpStatus.OK.name())
+                .timestamp(LocalDateTime.now())
+                .build();
+        LOG.info("'{}' User account status successfully Updated.",statusToBeUpdated);
+        return ResponseEntity.ok(response);
+    }
 }

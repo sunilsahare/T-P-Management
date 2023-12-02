@@ -4,7 +4,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
+import { getDisplayNameByRole } from 'src/app/enum/user-roles';
 import { User } from 'src/app/model/user-model';
+import { AlertService } from 'src/app/service/alert.service';
 import { RouterService } from 'src/app/service/router.service';
 import { UserService } from 'src/app/service/user.service';
 
@@ -14,6 +16,7 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
+[x: string]: any;
   pageIndex: number = 0;
   pageSize: number = 10;
   length: number = 0;
@@ -23,7 +26,7 @@ export class UserComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private routerService: RouterService,
-    private _snackBar: MatSnackBar,
+    private alertService: AlertService,
     private userService: UserService
   ) {}
 
@@ -77,6 +80,7 @@ export class UserComponent implements OnInit {
   }
 
   updateUser() {
+    const operation = "EDIT";
     console.log('selection', this.selection);
   }
 
@@ -94,6 +98,7 @@ export class UserComponent implements OnInit {
   }
 
   deleteSelectedUser = () => {
+    //TODO: Before delete there should be warning message
     console.log('this.dataSource --> ', this.dataSource);
     console.log('this.selection --> ', this.selection);
     const selectedUserIdList = this.getSelectedUserIds();
@@ -108,18 +113,18 @@ export class UserComponent implements OnInit {
   };
 
   private handleDeleteSuccess(value: any): void {
-    this._snackBar.open('Items deleted successfully', 'Success');
+    this.alertService.success('Items deleted successfully');
     // Additional handling if needed
   }
 
   private handleDeleteError(error: any): void {
-    this._snackBar.open('Error deleting items', error.message);
-    // Additional error handling if needed
+    this.selection.clear();
+    this.alertService.handleResponse(error.error);
   }
 
   private handleDeleteComplete(): void {
     console.info('Delete operation completed');
-    this._snackBar.open('Users Successfully Deleted.', 'Success');
+    this.alertService.success('Users Successfully Deleted.');
     this.selection.clear();
     this.getAllUsers();
   }
@@ -133,17 +138,38 @@ export class UserComponent implements OnInit {
     return this.selection.selected;
   }
 
-  /**
-   * Update User Accunt Status
-   * @param selectedRow - update the status value after api call to the selectdRow
-   * @param event - contains status value
-   */
-  public updateUserStatus(selectedRow:User, event:any) {
-    const accountStatus = event.target.checked;
-    console.log('accountStatus , ',accountStatus);
-    selectedRow.active = accountStatus;
-    console.log('selectedRow , ',selectedRow);
-
+ /**
+ * Updates the status of a user based on the provided event.
+ *
+ * This method is typically used in response to a checkbox state change event. It updates
+ * the status of the selected user through a call to the UserService
+ *
+ * @param selectedRow The user whose status is to be updated.
+ * @param event The checkbox change event that triggers the status update.
+ */
+  public updateUserStatus(selectedRow: User, event: any): void {
+    const accountStatus: boolean = event.target.checked;
+    // If status is null, consider it as inactive
+    const currentStatus: boolean = selectedRow.active == null ? false : selectedRow.active;
+    this.userService.updateUserStatus(selectedRow.userId, currentStatus, accountStatus)
+      .subscribe(
+        (response: any) => {
+          // Update the user's status in the UI
+          selectedRow.active = accountStatus;
+          console.log(`User Status Updated: ${selectedRow.username}, Active: ${accountStatus}`);
+          this.alertService.success(response.message);
+        },
+        (error: any) => {
+          const errorResponse = error.error;
+          event.target.checked = selectedRow.active;
+          console.error(`Error updating User Status: ${errorResponse}`);
+          this.alertService.handleResponse(errorResponse);
+        }
+      );
+  }
+  displayNameByRole(role:string) : string {
+    const displayName = getDisplayNameByRole(role);
+    return displayName == null ? "" : displayName; 
   }
 
 }

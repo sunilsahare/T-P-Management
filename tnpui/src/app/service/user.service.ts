@@ -29,6 +29,13 @@ export class UserService {
       .set('size', pageObj.size.toString());
     return this.restService.get(this.userApiUrl, params);
   }
+  
+  public updateUserStatus(userId:number, currentStatus:boolean, statusToBeUpdated:boolean):any {
+    const params = new HttpParams()
+      .set('currentStatus',currentStatus)
+      .set('statusToBeUpdated', statusToBeUpdated);
+    return this.restService.put(this.userApiUrl+userId, null,params);
+  }
 
   public removeUser(userId:number[]) {
     return this.restService.delete(this.userApiUrl, userId);

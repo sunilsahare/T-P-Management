@@ -9,6 +9,7 @@ import com.tnpserver.pojo.User;
 import com.tnpserver.repo.UserRepository;
 import com.tnpserver.service.UserService;
 import com.tnpserver.util.EncryptionUtil;
+import com.tnpserver.util.SessionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -48,14 +50,39 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user) throws BusinessException {
-        com.tnpserver.entity.User userEntity = UserHelper.mapPojoToEntity(user);
-        userEntity.setPassword(encoder.encode(user.getPassword()));
-        isUsernameExists(user.getUsername());
+        // UserID, Username Should not be updated
+        com.tnpserver.entity.User existingUser = getUserById(user.getUserId());
         isEmailExists(user.getEmail());
-        com.tnpserver.entity.User savedUser = userRepo.save(userEntity);
+        existingUser.setActive(user.isActive());
+        existingUser.setAddress(user.getAddress());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setGender(user.getGender());
+        existingUser.setFullName(user.getFullName());
+        existingUser.setMobile(user.getMobile());
+        existingUser.setProfilePictureUrl(user.getProfilePictureUrl());
+
+        com.tnpserver.entity.User savedUser = userRepo.save(existingUser);
         User userPojo = UserHelper.mapEntityToPojo(savedUser);
         LOG.info("Updated User - {} ", userPojo);
         return userPojo;
+    }
+
+    @Override
+    public void updateUserAccountStatus(Long userId, boolean currentStatus, boolean statusToBeUpdated) throws BusinessException {
+        com.tnpserver.entity.User user = getUserById(userId.longValue());
+
+        if(user.isActive() == statusToBeUpdated || currentStatus == statusToBeUpdated) {
+            String message = user.isActive() ? "User Status is already Active" : "User Status is already DeActive";
+            throw new BusinessException(message);
+        }
+
+        if (user.getUsername().equals(SessionUtil.getCurrentUsername())) {
+            throw new BusinessException("User status of Logged In User Can not be changed.");
+        }
+
+        user.setActive(statusToBeUpdated);
+        com.tnpserver.entity.User savedUser = userRepo.save(user);
+        LOG.info("User status Updated to - {} ", statusToBeUpdated);
     }
 
     @Override
@@ -78,8 +105,53 @@ public class UserServiceImpl implements UserService {
                     .timestamp(LocalDateTime.now()).build());
         }
 
+        validateUserDeletion(userList);
+
         userRepo.deleteAllById(List.of(userId));
 
+    }
+
+    /**
+     * Validates whether a user can be deleted based on certain conditions.
+     *
+     * This method checks three conditions before allowing the deletion of a user:
+     * 1. The user attempting to be deleted is not the currently logged-in user.
+     * 2. There are no users with the 'ADMIN' role in the provided list.
+     * 3. There are no active users in the provided list.
+     *
+     * If any of these conditions is not met, a {BusinessException} is thrown with
+     * an appropriate error message indicating the reason for the validation failure.
+     *
+     * @param userList A list of {com.tnpserver.entity.User} objects to be validated.
+     * @throws BusinessException If the deletion is not allowed based on the specified conditions.
+     */
+    private static void validateUserDeletion(List<com.tnpserver.entity.User> userList) {
+        String loggedInUserName = SessionUtil.getCurrentUsername();
+
+        boolean loggedInUserExists = userList.stream()
+                .anyMatch(user -> user.getUsername().equals(loggedInUserName));
+
+        if (loggedInUserExists) {
+            throw new BusinessException("Logged In User Can not be deleted.");
+        }
+
+        String adminRoleUsers = userList.stream()
+                .filter(user -> RoleEnum.ROLE_ADMIN.name().equals(user.getRole()))
+                .map(com.tnpserver.entity.User::getUsername)
+                .collect(Collectors.joining(", "));
+
+        if (!adminRoleUsers.isEmpty()) {
+            throw new BusinessException("Admin User Can not be deleted - " + adminRoleUsers);
+        }
+
+        String activeUsers = userList.stream()
+                .filter(com.tnpserver.entity.User::isActive)
+                .map(com.tnpserver.entity.User::getUsername)
+                .collect(Collectors.joining(", "));
+
+        if (!activeUsers.isEmpty()) {
+            throw new BusinessException("Active User Can not be deleted - " + activeUsers);
+        }
     }
 
     @Override
@@ -102,10 +174,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(Long userId) throws BusinessException {
-        com.tnpserver.entity.User user = userRepo.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND.getError()));
+        com.tnpserver.entity.User user = getUserById(userId);
         User userPojo = UserHelper.mapEntityToPojo(user);
         LOG.info("Fetch User - {} ", userPojo);
         return userPojo;
+    }
+
+    @Override
+    public com.tnpserver.entity.User getUserById(Long userId) throws BusinessException {
+        return userRepo.findById(userId).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND.getError()));
     }
 
     @Override
