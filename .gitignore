@@ -1,0 +1,86 @@
+# ------------ For Java -------------
+# Compiled class file
+/target/
+
+# Log files
+*.log
+
+# IDE files
+.idea/
+*.iml
+*.iws
+*.classpath
+*.project
+
+# Eclipse
+.metadata/
+
+# VS Code
+.vscode/
+
+# Gradle
+.gradle/
+build/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# ----------- For Angular -----------
+# Node artifacts
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Compiled output
+/dist/
+/tmp/
+/out-tsc/
+
+# ngc la cache
+/.ngc/
+
+# Serverless directories
+/.serverless/
+
+# Environment Variables
+.env
+.env.prod
+.env.prod.local
+.env.dev
+.env.dev.local
+
+# Dependency directories
+/jspm_packages/
+/bower_components/
+
+# TypeScript
+*.tsbuildinfo
+*.log
+
+# Editor directories and files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*
+
+# User-specific files
+*.sublime-*
+*.sublime-workspace
+*.komodoproject
+.komodotool/
+.komodotools/
+
+# Git related files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
