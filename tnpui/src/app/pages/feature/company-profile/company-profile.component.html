@@ -1,0 +1,111 @@
+<div class="bd-highlight d-flex p-2 h3 ml-2">Add Company Profile</div>
+<!-- Add User Form -->
+<div class="container-fluid p-3">
+
+  <div
+    class="p-2"
+    [ngClass]="{ 'col-8 mx-auto': currentRouteUrl === '/register' }"
+  >
+
+    <hr class="mt-0 mb-1" />
+
+    <form [formGroup]="companyProfileForm">
+      <div class="row mb-2">
+        <!-- FullName -->
+        <div class="col-md-6">
+          <label for="fullName">Company Name</label>
+          <input
+            type="text"
+            formControlName="companyName"
+            class="form-control is-valid"
+            id="companyName"
+            [ngClass]="{
+              'is-invalid': hasError('companyName'),
+              'is-valid': companyProfileForm.get('companyName').valid
+            }"
+            required
+          />
+          <!-- Validation Error-->
+          <div
+            [ngClass]="{
+              'invalid-feedback': companyProfileForm.get('companyName').invalid
+            }"
+            *ngIf="hasError('companyName')"
+          >
+            <div
+              *ngIf="companyProfileForm.get('companyName').errors?.['required']"
+            >
+              Full Name is required.
+            </div>
+            <div
+              *ngIf="companyProfileForm.get('companyName').errors?.['maxlength']"
+            >
+              Company Name must not be greater than 64 characters.
+            </div>
+            <div
+              *ngIf="companyProfileForm.get('companyName').errors?.['backendValidation']==true"
+            >
+              {{companyProfileForm.get('companyName').errors?.['message']}}
+            </div>
+          </div>
+        </div>
+
+        <!--  Email  -->
+        <div class="col-md-6">
+          <label for="industry">Idustry</label>
+          <input
+            type="text"
+            formControlName="industry"
+            class="form-control"
+            id="industry"
+          />
+          <!-- Validation Error-->
+          <div
+            [ngClass]="{
+              'invalid-feedback': companyProfileForm.get('industry').invalid
+            }"
+            *ngIf="hasError('industry')"
+          >
+            <div
+              *ngIf="companyProfileForm.get('industry').errors?.['backendValidation']==true"
+            >
+              {{companyProfileForm.get('industry').errors?.['message']}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <!-- Address -->
+        <div class="col-md-12">
+          <label for="address">Description</label>
+          <textarea
+            class="form-control"
+            formControlName="description"
+            id="description"
+            placeholder="description"
+          ></textarea>
+        </div>
+      </div>
+
+      <br />
+      <!-- Submit button -->
+      <div class="d-flex">
+        <button
+          class="btn btn-primary"
+          [disabled]="companyProfileForm.invalid"
+          type="submit"
+          (click)="saveStudent()"
+        >
+          Submit
+        </button>
+        <label
+          *ngIf="currentRouteUrl === '/register'"
+          for=""
+          class="ml-4 nav-link text-right d-flex"
+          ><a routerLink="/login" class="">Log In</a>
+        </label>
+      </div>
+    </form>
+  </div>
+</div>

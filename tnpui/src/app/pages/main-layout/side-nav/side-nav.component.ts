@@ -12,17 +12,24 @@ import { RouterService } from "src/app/service/router.service";
   styleUrls: ["./side-nav.component.css"],
 })
 export class SideNavComponent implements OnInit {
+
+  public EMPLOYER_ROLE:string = UserRoles.ROLE_EMPLOYER;
+
   constructor(
     private router: Router,
     private menuService: MenuService,
-    private accessControlService: AccessControlService,
+    public accessControlService: AccessControlService,
     private alertService: AlertService,
     private routerService:RouterService
-  ) {}
+  ) {
+    this.menu = this.menuService.getMenuForUserRole();
+    console.log('Menu - ', this.menu);
+  }
 
-  public menu = this.menuService.getMenuForUserRole(UserRoles.ROLE_ADMIN);
+  public menu:any;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   public navigateToLink(url: string | null) {
     if (url == null || url == undefined) {

@@ -4,6 +4,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
+import { PopupComponent } from 'src/app/common/popup/popup.component';
 import { getDisplayNameByRole } from 'src/app/enum/user-roles';
 import { User } from 'src/app/model/user-model';
 import { AlertService } from 'src/app/service/alert.service';
@@ -16,10 +17,11 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-[x: string]: any;
+
   pageIndex: number = 0;
   pageSize: number = 10;
   length: number = 0;
+  @ViewChild('popup') popup!: PopupComponent;
 
   selection = new SelectionModel<any>(true, []);
   pageSixeOptions: number[] = [5, 10, 25, 100];
@@ -27,7 +29,7 @@ export class UserComponent implements OnInit {
     private http: HttpClient,
     private routerService: RouterService,
     private alertService: AlertService,
-    private userService: UserService
+    private userService: UserService,
   ) {}
 
   // pageSize: number = 10;
@@ -97,8 +99,25 @@ export class UserComponent implements OnInit {
       : this.dataSource.data.forEach((row) => this.selection.select(row));
   }
 
+  openPopup() {
+    const popupData = {
+      title: 'Confirm Deletion',
+      message: 'Do you really want to delete the selected Users?',
+      type: 'danger',
+      btnName: 'Yes'
+    };
+
+    this.popup.openPopup(popupData);
+  }
+
+  popUpResponse(response: string) {
+    if(response === 'OK') {
+      this.deleteSelectedUser();
+    }
+    this.selection.clear();
+  }
+
   deleteSelectedUser = () => {
-    //TODO: Before delete there should be warning message
     console.log('this.dataSource --> ', this.dataSource);
     console.log('this.selection --> ', this.selection);
     const selectedUserIdList = this.getSelectedUserIds();

@@ -9,26 +9,24 @@ export class AccessControlService {
 
   private readonly STORAGE_KEY = 'auth_details';
 
-  public hasRoleAdmin:boolean = true;
-  public hasRoleHod:boolean = false;
-  public hasRoleStudent:boolean = false;
-  public hasRoleEmployer:boolean = false;
-  public hasRoleTNP:boolean = false;
-  public hasRoleAlumni:boolean = false;
-  public hasRolePartner:boolean = false;
+  public hasRoleAdmin!: boolean;
+  public hasRoleStudent!:boolean;
+  public hasRoleEmployer!:boolean;
+  public hasRoleTNP!:boolean;
+  public hasRoleAlumni!:boolean;
+  public hasRolePartner!:boolean;
 
   constructor() {}
 
   // Set user details in local storage
   setAuthDetails(username: string, role: string, jwtToken: string, user:User): void {
-    this.setRoleFlag();
     const authDetails = { username, role, jwtToken , user};
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(authDetails));
+    this.setRoleFlag();
   }
 
   private setRoleFlag() {
     // this.hasRoleAdmin = this.getUserRole() === UserRoles.ROLE_ADMIN.toString();
-    this.hasRoleHod = this.getUserRole() === UserRoles.ROLE_HOD.toString();
     this.hasRoleEmployer = this.getUserRole() === UserRoles.ROLE_EMPLOYER.toString();
     this.hasRoleStudent = this.getUserRole() === UserRoles.ROLE_STUDENT.toString();
     this.hasRoleTNP = this.getUserRole() === UserRoles.ROLE_TNP_OFFICER.toString();

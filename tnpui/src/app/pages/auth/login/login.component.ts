@@ -25,7 +25,6 @@ export class LoginComponent {
 
   ngOnInit(): void {
     this.buildForm();
-    this.login();
   }
 
   private buildForm() {

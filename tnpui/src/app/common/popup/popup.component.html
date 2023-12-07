@@ -1,0 +1,23 @@
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" (click)="openPopup()">
+    Launch demo modal
+  </button> -->
+  
+  <!-- Modal -->
+  <div class="modal fade" id="popup" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-{{data.type}}">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">{{data.title}}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            {{data.message}}
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="onButtonClick('OK')">{{data.btnName}}</button>
+          <button type="button" class="btn btn-secondary" (click)="onButtonClick('CANCEL')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>

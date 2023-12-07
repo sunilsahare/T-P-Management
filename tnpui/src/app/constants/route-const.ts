@@ -16,4 +16,5 @@ export class RouteConst {
   public static readonly EVENTS_LINK = 'events';
   public static readonly USERS = 'user';
   public static readonly USERS_ADD = 'user/add';
+  public static readonly COMPANY_PROFILE = 'company-profile';
 }

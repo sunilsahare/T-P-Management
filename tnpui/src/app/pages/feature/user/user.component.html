@@ -2,7 +2,7 @@
     <div class="p-1 m-0 flex-grow-1 bd-highlight h3">Users List</div>
     <div class="p-1 m-0 bd-highlight"><button class="btn btn-primary" [routerLink]="['./add']" type="submit">Add</button></div>
     <div class="p-1 m-0 bd-highlight"><button class="btn btn-info" (click)="updateUser()" [disabled]="selection.selected.length!=1" type="submit">Update</button></div>
-    <div class="p-1 m-0 bd-highlight"><button class="btn btn-danger" (click)="deleteSelectedUser()" [disabled]="selection.selected.length==0" type="submit">Delete</button></div>
+    <div class="p-1 m-0 bd-highlight"><button class="btn btn-danger" (click)="openPopup()" [disabled]="selection.selected.length==0" type="submit">Delete</button></div>
   </div>
   
   <div class="table-container">
@@ -92,4 +92,4 @@
     (page)="pageEvents($event)"
   >
   </mat-paginator>
-  
+  <app-popup #popup (buttonClickEvent)="popUpResponse($event)"></app-popup>

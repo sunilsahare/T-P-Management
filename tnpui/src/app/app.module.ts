@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -30,6 +29,8 @@ import { ResumeComponent } from './pages/feature/resume/resume.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UserComponent } from './pages/feature/user/user.component';
 import { AddUserComponent } from './pages/auth/add-user/add-user.component';
+import { CompanyProfileComponent } from './pages/feature/company-profile/company-profile.component';
+import { PopupComponent } from './common/popup/popup.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,8 @@ import { AddUserComponent } from './pages/auth/add-user/add-user.component';
     ResumeComponent,
     UserComponent,
     AddUserComponent,
+    CompanyProfileComponent,
+    PopupComponent,
     
 
   ],
@@ -74,7 +77,7 @@ import { AddUserComponent } from './pages/auth/add-user/add-user.component';
     CdkTableModule,
     BrowserAnimationsModule,
     MatSnackBarModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

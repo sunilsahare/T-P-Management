@@ -1,4 +1,6 @@
 @import "~@fortawesome/fontawesome-free/css/all.css";
+@import "~ngx-toastr/toastr.css";
+
 
 html {
   font-family: "Times New Roman", Times, serif;

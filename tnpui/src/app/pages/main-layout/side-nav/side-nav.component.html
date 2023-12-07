@@ -89,12 +89,12 @@
           &nbsp; Change Password
         </a>
       </li>
-      <li>
+      <li *ngIf="accessControlService.getUserRole() != EMPLOYER_ROLE">
         <a class="dropdown-item" href="#"
           ><i class="fas fa-cogs pr-2"></i>&nbsp;Settings</a
         >
       </li>
-      <li>
+      <li *ngIf="accessControlService.getUserRole() != EMPLOYER_ROLE">
         <a class="dropdown-item" href="#"
           ><i class="fas fa-user pr-2"></i>&nbsp;Profile</a
         >
@@ -107,40 +107,5 @@
       </li>
     </ul>
 
-    <!---------->
-
-    <!-- <ul
-      class="dropdown-menu d-block position-static mx-0 shadow w-100px"
-      data-bs-theme="light"
-    >
-      <li>
-        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
-          <i class="fas fa-key"></i>
-          Change Password
-        </a>
-      </li>
-      <li>
-        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
-          <i class="fas fa-cogs"></i>
-          Setting
-        </a>
-      </li>
-      <li>
-        <a class="dropdown-item d-flex gap-2 align-items-center" href="#">
-          <i class="fas fa-user"></i>
-          Profile
-        </a>
-      </li>
-      <li><hr class="dropdown-divider" /></li>
-      <li>
-        <a
-          class="dropdown-item text-danger d-flex gap-2 align-items-center"
-          href="#"
-        >
-          <i class="fas fa-sign-out-alt"></i>
-          Sign out
-        </a>
-      </li>
-    </ul> -->
   </div>
 </div>

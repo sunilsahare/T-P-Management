@@ -1,6 +1,6 @@
  .side-bar {
   overflow-y: auto !important;
-  /* max-height: 79vh !important; */
+  background: #ced9d5 !important;
  }
 
  .nav-link {

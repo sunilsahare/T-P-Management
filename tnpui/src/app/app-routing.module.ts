@@ -16,6 +16,8 @@ import { MainLayoutComponent } from './pages/main-layout/main-layout.component';
 import { UserComponent } from './pages/feature/user/user.component';
 import { RouteConst } from './constants/route-const';
 import { AddUserComponent } from './pages/auth/add-user/add-user.component';
+import { CompanyProfileComponent } from './pages/feature/company-profile/company-profile.component';
+import { PopupComponent } from './common/popup/popup.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -63,6 +65,10 @@ const routes: Routes = [
       
       //---  EVENTS TAB ----
       { path: 'events', component: EventsComponent },
+      { path: 'p', component: PopupComponent },
+
+      //---  Company Profile TAB ----
+      { path: RouteConst.COMPANY_PROFILE, component: CompanyProfileComponent },
       
 
     ],
