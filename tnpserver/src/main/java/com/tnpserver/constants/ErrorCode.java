@@ -7,6 +7,7 @@ public enum ErrorCode {
     USERNAME_NOT_FOUND("Username not found."),
     USER_EXISTS("User already exists."),
     USERNAME_EXISTS("Please use another username."),
+    USER_DEACTIVATE("Please Activate the Account by Admin and then try to Logged in."),
     EMAIL_EXISTS("Email already exists."),
     EMAIL_NOT_FOUND("Email not found."),
     USER_DEACTIVATED("User is Deactivated"),

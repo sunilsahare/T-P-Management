@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
+import { ToastrService } from "ngx-toastr";
 import { AccessControlService } from "src/app/service/access-control.service";
-import { AlertService } from "src/app/service/alert.service";
 import { AuthenticationService } from "src/app/service/authentication.service";
 import { CryptoService } from "src/app/service/crypto.service";
 import { RouterService } from "src/app/service/router.service";
@@ -20,12 +20,11 @@ export class LoginComponent {
     private authService: AuthenticationService,
     private accessControlService: AccessControlService,
     private routerService: RouterService,
-    private alertService:AlertService
+    private alertService:ToastrService,
   ) {}
 
   ngOnInit(): void {
     this.buildForm();
-    this.login();
   }
 
   private buildForm() {
@@ -70,7 +69,7 @@ export class LoginComponent {
         (error: any) => {
           console.error("Authentication Error: ", error);
           const errorResponse = error.error;
-          this.alertService.failed("Login Failed."+errorResponse.message);
+          this.alertService.error(errorResponse.message);
         }
       );
   }

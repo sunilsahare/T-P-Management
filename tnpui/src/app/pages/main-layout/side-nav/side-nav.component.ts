@@ -2,9 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { UserRoles } from "src/app/enum/user-roles";
 import { AccessControlService } from "src/app/service/access-control.service";
-import { AlertService } from "src/app/service/alert.service";
 import { MenuService } from "src/app/service/menu.service";
 import { RouterService } from "src/app/service/router.service";
+import { ToastService } from "src/app/service/toast.service";
 
 @Component({
   selector: "app-side-nav",
@@ -16,7 +16,7 @@ export class SideNavComponent implements OnInit {
     private router: Router,
     private menuService: MenuService,
     private accessControlService: AccessControlService,
-    private alertService: AlertService,
+    private alertService: ToastService,
     private routerService:RouterService
   ) {}
 
@@ -37,7 +37,7 @@ export class SideNavComponent implements OnInit {
       this.routerService.navigate("/login");
       this.alertService.success("User Successfully Logged out.")
     } else {
-      this.alertService.failed("Logged In User Not Found.")
+      this.alertService.error("Logged In User Not Found.")
     }
   }
 

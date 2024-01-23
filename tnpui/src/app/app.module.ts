@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { ToastrModule } from 'ngx-toastr';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
@@ -66,7 +66,7 @@ import { AddUserComponent } from './pages/auth/add-user/add-user.component';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     // AlertModule.forRoot(), // ngx-bootstrap alert module
-    // ToastrModule.forRoot(), // ngx-toastr module
+    ToastrModule.forRoot(), // ngx-toastr module
     MatPaginatorModule,
     MatTableModule,
     FormsModule,

@@ -25,4 +25,5 @@ public interface UserService {
     public Object getUserByEmail(String email) throws BusinessException;
     void isEmailExists(String email) throws BusinessException;
     void isUsernameExists(String username) throws BusinessException;
+    public void isUserActive(String username);
 }

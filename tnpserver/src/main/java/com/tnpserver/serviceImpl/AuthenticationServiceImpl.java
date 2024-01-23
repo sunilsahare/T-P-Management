@@ -35,11 +35,14 @@ public class AuthenticationServiceImpl extends UserServiceImpl implements Authen
 
     @Override
     public JwtResponse authenticate(JwtRequest request) throws BusinessException {
-        com.tnpserver.entity.User user = getUserByUsername(EncryptionUtil.decrypt(request.getUsername()));
+        String decryptedUsername = EncryptionUtil.decrypt(request.getUsername());
+        com.tnpserver.entity.User user = getUserByUsername(decryptedUsername);
         if (user == null) {
-            LOG.info("Invalid Username {}", request.getUsername());
+            LOG.info("Invalid Username {}", decryptedUsername);
             throw new BusinessException("Invalid Username or password.");
         }
+
+        isUserActive(decryptedUsername);
 
         authenticationManager
                 .authenticate(

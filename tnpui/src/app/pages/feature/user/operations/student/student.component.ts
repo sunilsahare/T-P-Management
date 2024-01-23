@@ -6,11 +6,11 @@ import { FormBuilder } from '@angular/forms';
 import { User } from 'src/app/model/user-model';
 import { RouterService } from 'src/app/service/router.service';
 import { UserService } from 'src/app/service/user.service';
-import { AlertService } from 'src/app/service/alert.service';
 import { FieldError, ValidationError } from 'src/app/model/error-model';
 import { UserRoles } from 'src/app/enum/user-roles';
 import { CryptoService } from 'src/app/service/crypto.service';
 import { AccessControlService } from 'src/app/service/access-control.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-student',
@@ -29,7 +29,7 @@ export class StudentComponent implements OnInit {
     private routerService: RouterService,
     private router: Router,
     private userService: UserService,
-    private alertService:AlertService,
+    private alertService:ToastrService,
     public accessControlService:AccessControlService
   ) {
     this.currentRouteUrl = this.router.url;
@@ -99,7 +99,7 @@ export class StudentComponent implements OnInit {
           }
         },
         (responseError:any) => {
-          this.alertService.failed("User Registration Failed.");
+          this.alertService.error("User Registration Failed.");
           const fieldErrors:FieldError[] = responseError.error.fieldErrors;
 
            // Set form control errors based on backend validation errors

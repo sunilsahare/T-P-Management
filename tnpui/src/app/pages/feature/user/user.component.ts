@@ -6,8 +6,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { getDisplayNameByRole } from 'src/app/enum/user-roles';
 import { User } from 'src/app/model/user-model';
-import { AlertService } from 'src/app/service/alert.service';
 import { RouterService } from 'src/app/service/router.service';
+import { ToastService } from 'src/app/service/toast.service';
 import { UserService } from 'src/app/service/user.service';
 
 @Component({
@@ -26,8 +26,8 @@ export class UserComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private routerService: RouterService,
-    private alertService: AlertService,
-    private userService: UserService
+    private userService: UserService,
+    private alertService:ToastService
   ) {}
 
   // pageSize: number = 10;

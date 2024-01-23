@@ -187,7 +187,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public com.tnpserver.entity.User getUserByUsername(String username) {
-        return userRepo.findByUsername(username).orElse(null);
+        return userRepo.findByUsername(username).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND.getError()));
     }
 
     @Override
@@ -209,5 +209,13 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public void isUserActive(String username) throws BusinessException {
+        boolean isUserActive = getUserByUsername(username).isActive();
+        if (!isUserActive) {
+            LOG.debug("Deactive User -  {}", username);
+            throw new BusinessException(ErrorCode.USER_DEACTIVATE.getError());
+        }
+    }
 
 }
