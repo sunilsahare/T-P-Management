@@ -20,7 +20,7 @@ export class SideNavComponent implements OnInit {
     private routerService:RouterService
   ) {}
 
-  public menu = this.menuService.getMenuForUserRole(UserRoles.ROLE_ADMIN);
+  public menu = this.menuService.getMenuForUserRole();
 
   ngOnInit(): void {}
 

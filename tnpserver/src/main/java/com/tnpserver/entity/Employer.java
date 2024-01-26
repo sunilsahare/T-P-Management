@@ -14,8 +14,8 @@ public class Employer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "id")
+    private Long employerId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

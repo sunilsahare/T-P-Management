@@ -73,9 +73,9 @@ export class AccessControlService {
   }
 
   // Get the user role
-  getUserRole(): string | null {
+  getUserRole(): string {
     const authUser = this.getUser();
-    return authUser ? authUser.role : null;
+    return authUser ? authUser.role : UserRoles.ROLE_STUDENT;
   }
 
   // Get the JWT token

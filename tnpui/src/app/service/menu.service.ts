@@ -9,7 +9,7 @@ import { AccessControlService } from "./access-control.service";
 export class MenuService {
   constructor(private accessControlService: AccessControlService) {}
 
-  public getMenuForUserRole(userRole: string): MenuItem[] {
+  public getMenuForUserRole(): MenuItem[] {
     return [
       {
         label: "Dashboard",

@@ -20,7 +20,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("api/")
-//@CrossOrigin(origins = "http://localhost:4200")
 public class StudentRestController {
 
     private static final Logger LOG = LoggerFactory.getLogger(StudentRestController.class);

@@ -12,6 +12,7 @@ public enum ErrorCode {
     EMAIL_NOT_FOUND("Email not found."),
     USER_DEACTIVATED("User is Deactivated"),
     ACADEMIC_INFO_UPDATE_NOT_ALLOWED("Academic Info update is allowed only by Logged in User"),
+    JOB_DETAILS_NOT_ALLOWED_TO_ADD("Job details can be added/updated only by the Employer and the Admin Role"),
     ACADEMIC_INFO_NOT_FOUND("Invalid Id. Academic Info not found!!!");
 
     private final String error;

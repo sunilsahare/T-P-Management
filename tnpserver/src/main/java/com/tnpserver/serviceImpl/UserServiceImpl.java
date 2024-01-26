@@ -2,14 +2,19 @@ package com.tnpserver.serviceImpl;
 
 import com.tnpserver.constants.ErrorCode;
 import com.tnpserver.constants.RoleEnum;
+import com.tnpserver.entity.Employer;
+import com.tnpserver.entity.Student;
 import com.tnpserver.exception.BusinessException;
 import com.tnpserver.exception.ErrorResponse;
 import com.tnpserver.helper.UserHelper;
 import com.tnpserver.pojo.User;
+import com.tnpserver.repo.EmployerRepository;
+import com.tnpserver.repo.StudentRepository;
 import com.tnpserver.repo.UserRepository;
 import com.tnpserver.service.UserService;
 import com.tnpserver.util.EncryptionUtil;
 import com.tnpserver.util.SessionUtil;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +37,20 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepo;
     @Autowired
     private PasswordEncoder encoder;
+    @Autowired
+    private EmployerRepository employerRepository;
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Transactional
 
     @Override
     public User addUser(User user) throws BusinessException {
         com.tnpserver.entity.User userEntity = UserHelper.mapPojoToEntity(user);
+        String role = user.getRole() == null ? RoleEnum.ROLE_STUDENT.getRole() : user.getRole();
+        RoleEnum decryptedRole = RoleEnum.fromString(EncryptionUtil.decrypt(role));
         userEntity.setActive(false);
-        userEntity.setRole(RoleEnum.fromString(EncryptionUtil.decrypt(user.getRole())));
+        userEntity.setRole(decryptedRole);
         userEntity.setPassword(encoder.encode(EncryptionUtil.decrypt(user.getPassword())));
         userEntity.setUsername(EncryptionUtil.decrypt(user.getUsername()));
         isUsernameExists(EncryptionUtil.decrypt(user.getUsername()));
@@ -45,7 +58,27 @@ public class UserServiceImpl implements UserService {
         com.tnpserver.entity.User savedUser = userRepo.save(userEntity);
         User userPojo = UserHelper.mapEntityToPojo(savedUser);
         LOG.info("Saved User - {} ", userPojo);
+
+        addOtherDetails(userEntity, decryptedRole);
         return userPojo;
+    }
+
+    @Transactional
+    private void addOtherDetails(com.tnpserver.entity.User userEntity, RoleEnum decryptedRole) {
+        // If Role is Employer then add entry in Employer table
+        System.err.println("decryptedRole: "+decryptedRole);
+        System.err.println("RoleEnum.ROLE_EMPLOYER.getRole(): "+RoleEnum.ROLE_EMPLOYER.getRole());
+        if (decryptedRole.name().equals(RoleEnum.ROLE_EMPLOYER.name())) {
+            Employer employer = Employer.builder().user(userEntity).build();
+            Employer save = employerRepository.save(employer);
+            LOG.info("Saved Employer - {}", save);
+        }
+
+        // If Role is Student then add entry in Student table
+        if (decryptedRole.name().equals(RoleEnum.ROLE_STUDENT.getRole())) {
+            Student student = Student.builder().user(userEntity).build();
+            studentRepository.save(student);
+        }
     }
 
     @Override
@@ -187,7 +220,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public com.tnpserver.entity.User getUserByUsername(String username) {
-        return userRepo.findByUsername(username).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND.getError()));
+        return userRepo.findByUsername(username).orElse(null);
     }
 
     @Override
@@ -211,8 +244,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void isUserActive(String username) throws BusinessException {
-        boolean isUserActive = getUserByUsername(username).isActive();
-        if (!isUserActive) {
+        com.tnpserver.entity.User user = getUserByUsername(username);
+        if (user!=null && !user.isActive()) {
             LOG.debug("Deactive User -  {}", username);
             throw new BusinessException(ErrorCode.USER_DEACTIVATE.getError());
         }
